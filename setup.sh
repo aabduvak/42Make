@@ -2,6 +2,9 @@
 
 # Makefile generator 1.0.0
 
+# default Makefile template
+TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/Makefile.template"
+
 # Colors
 BLACK='\033[0;30m'
 RED='\033[0;31m'
@@ -34,6 +37,14 @@ if [ -z "$FOLDER" ]; then
 	FOLDER="src";
 fi
 
+printf "\nEnter ${BOLD}include${RESET} directory of project: (default is ${BOLD}${FOLDER}${RESET} leave empty if wanted)\n\
+${BLUE}>>${RESET} ";
+read INCLUDE;
+
+if [ -z "$INCLUDE" ]; then
+	INCLUDE=$FOLDER;
+fi
+
 printf "\nEnter ${BOLD}extension${RESET} of source files: (default extension is ${BOLD}.c${RESET} leave empty if wanted)\n\
 ${BLUE}>>${RESET} ";
 read EXTENSION;
@@ -44,8 +55,59 @@ fi
 
 printf "\nEnter ${BOLD}author${RESET} of project: (default user is ${BOLD}$USER${RESET} leave empty if wanted)\n\
 ${BLUE}>>${RESET} ";
-read USR;
+read AUTHOR;
 
-if [ -z "$USR" ]; then
-	USR=$USER;
+if [ -z "$AUTHOR" ]; then
+	AUTHOR=$USER;
 fi
+
+printf "\nEnter ${BOLD}compiler${RESET} of project: (default compiler is ${BOLD}gcc${RESET} leave empty if wanted)\n\
+${BLUE}>>${RESET} ";
+read COMPILER;
+
+if [ -z "$COMPILER" ]; then
+	COMPILER="gcc";
+fi
+
+printf "\nEnter ${BOLD}flags${RESET} of compiler: (default flags are ${BOLD}-Wall -Wextra -Werror${RESET} leave empty if wanted)\n\
+${BLUE}>>${RESET} ";
+read CFLAGS;
+
+if [ -z "$CFLAGS" ]; then
+	CFLAGS="-Wall -Wextra -Werror";
+fi
+
+printf "\nDo you want to create a Makefile with all these informations?\
+ [y/n]\n\
+$BLUE$BOLD>> ${RESET}name: ${BOLD}$NAME$RESET\n\
+$BLUE$BOLD>> ${RESET}source directory: ${BOLD}$FOLDER$RESET\n\
+$BLUE$BOLD>> ${RESET}include directory: ${BOLD}$INCLUDE$RESET\n\
+$BLUE$BOLD>> ${RESET}author: ${BOLD}$AUTHOR$RESET\n\
+$BLUE$BOLD>> ${RESET}file extension: ${BOLD}$EXTENSION$RESET\n\
+$BLUE$BOLD>> ${RESET}compiler: ${BOLD}$COMPILER$RESET\n\
+$BLUE$BOLD>> ${RESET}compilation flags: ${BOLD}$CFLAGS$RESET\n\
+
+$BLUE$BOLD[y/n] >> $RESET";
+read CREATE;
+
+if [ -z "$CREATE" ]; then
+	CREATE="y";
+fi
+
+DATE="$(date +%d\\/%m\\/%Y)"
+
+if [ $CREATE = "y" ]; then
+	curl -s $TEMPLATE | sed 's/name_template/'"$NAME"'/g' \
+							| sed 's/author_template/'"$AUTHOR"'/g' \
+							| sed 's/extension_template/'"$EXTENSION"'/g' \
+							| sed 's/cc_template/'"$COMPILER"'/g' \
+							| sed 's/cflags_template/'"$CFLAGS"'/g' \
+							| sed 's/src_template/'"$FOLDER"'/g' \
+							| sed 's/inc_template/'"$INCLUDE"'/g' \
+							| sed 's/date_template/'"$DATE"'/g' \
+							> Makefile;
+	printf "Done...\n";
+else
+	printf "Exiting...\n";
+fi
+exit 0;
