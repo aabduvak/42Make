@@ -1,0 +1,83 @@
+# Colors
+
+BLACK			=	"\033[0;30m"
+RED				=	"\033[0;31m"
+GREEN			=	"\033[0;32m"
+YELLOW			=	"\033[0;33m"
+CYAN			=	"\033[0;35m"
+BLUE			=	"\033[0;36m"
+WHITE			=	"\033[0;37m"
+BOLD			=	
+END				=	"\033[0;0m"
+
+# Command and Flags
+
+NAME			= name_template
+CC				= cc_template
+CFLAGS			= cflags_template
+RM				= rm -rf
+EXTS			= extension_template
+
+# Files and Directories
+
+SRC_DIR			= src_template
+SRCS			= fls_template
+OBJS			= $(SRCS:/%.$(EXTS)=$(SRC_DIR)/bin/%.o)
+INCS			= inc_template
+
+PARAMS			= 
+LOG				= output.file
+DATE			= date_template
+# Rules
+
+all : $(NAME)
+
+$(BIN):
+	@mkdir $(BIN)
+
+$(BIN)%.o: $(SRC_DIR)/%.$(EXTS)
+	@mkdir -p $(shell dirname $@)
+	@echo $(YELLOW) "Compiling..." $< $(END)
+	@$(CC) $(CFLAGS) -c $< -o $@ -I$(INCS)
+
+$(NAME): $(BIN) $(OBJS)
+	@echo $(YELLOW) "Building... $(NAME)" $(END)
+	@$(CC) $(OBJS) -o $(NAME)
+	@echo $(GREEN) "$(NAME) created successfully!\n" $(END)
+
+# $< input files
+# $@ output files
+# in makefile used to create output files in their subfolder
+
+clean :
+	@echo $(YELLOW) "Removing object files...$(NAME)" $(END)
+	@$(RM) $(OBJS)
+	@echo $(RED) "All files deleted successfully!\n" $(END)
+
+fclean : clean
+	@echo $(YELLOW) "Removing $(NAME)..." $(END)
+	@$(RM) $(NAME)
+	@$(RM) $(BIN)
+	@echo $(RED) "$(NAME) deleted successfully!\n" $(END)
+
+norm :
+	@norminette $(INCS)
+	@norminette $(SRC_DIR)
+
+re : fclean all
+
+run : $(NAME)
+	@./$(NAME) $(PARAMS)
+
+help :
+	@echo "------------------------------------ <<HELP COMMAND>> ------------------------------------"
+	@echo ""
+	@echo "make            --------- compiles all *.c files and create libftprintf.a library"
+	@echo "make clean      --------- cleans all *.o files in sources"
+	@echo "make fclean 	   --------- cleans all *.o files in sources and libftprintf.a library"
+	@echo "make re         --------- cleans all files and compiles again"
+	@echo "make norm       --------- controls all *.c and *.h codes to norminette standart"
+	@echo "make run        --------- compile and run program"
+	@echo "make leaks      --------- checks all leaks in the program and creates output.file"
+
+.PHONY: all clean fclean re run
