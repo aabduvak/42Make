@@ -7,7 +7,7 @@ YELLOW			=	"\033[0;33m"
 CYAN			=	"\033[0;35m"
 BLUE			=	"\033[0;36m"
 WHITE			=	"\033[0;37m"
-BOLD			=	
+BOLD			=	"\033[1m"
 END				=	"\033[0;0m"
 
 # Command and Flags
@@ -22,7 +22,8 @@ EXTS			= extension_template
 
 SRC_DIR			= src_template
 SRCS			= $(shell find $(SRC_DIR) -type f -name "*$(EXTS)")
-OBJS			= $(SRCS:/%.$(EXTS)=$(SRC_DIR)/bin/%.o)
+BIN				= $(SRC_DIR)/bin/
+OBJS			= $(SRCS:$(SRC_DIR)/%$(EXTS)=$(BIN)%.o)
 INCS			= inc_template
 
 PARAMS			= 
@@ -35,15 +36,15 @@ all : $(NAME)
 $(BIN):
 	@mkdir $(BIN)
 
-$(BIN)%.o: $(SRC_DIR)/%.$(EXTS)
+$(BIN)%.o: $(SRC_DIR)/%$(EXTS)
 	@mkdir -p $(shell dirname $@)
 	@echo $(YELLOW) "Compiling..." $< $(END)
-	@$(CC) $(CFLAGS) -c $< -o $@ -I$(INCS)
+	@$(CC) $(CFLAGS) -c $< -o $@ -I./$(INCS)
 
 $(NAME): $(BIN) $(OBJS)
 	@echo $(YELLOW) "Building... $(NAME)" $(END)
 	@$(CC) $(OBJS) -o $(NAME)
-	@echo $(GREEN) "$(NAME) created successfully!\n" $(END)
+	@echo $(BOLD)$(GREEN) "$(NAME) created successfully!\n" $(END)
 
 # $< input files
 # $@ output files
