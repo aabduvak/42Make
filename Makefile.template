@@ -21,7 +21,7 @@ EXTS			= extension_template
 # Files and Directories
 
 SRC_DIR			= src_template
-SRCS			= fls_template
+SRCS			= $(shell find $(SRC_DIR) -type f -name "*$(EXTS)")
 OBJS			= $(SRCS:/%.$(EXTS)=$(SRC_DIR)/bin/%.o)
 INCS			= inc_template
 
