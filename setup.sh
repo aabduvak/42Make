@@ -85,6 +85,8 @@ if [ -z "$ARGS" ]; then
 	ARGS="null";
 fi
 
+# get confirmation
+
 printf "\nDo you want to create a Makefile with all these informations?\
  [y/n]\n\
 $BLUE$BOLD>> ${RESET}name: ${BOLD}$NAME$RESET\n\
@@ -104,6 +106,8 @@ fi
 
 DATE="$(date +%d\\/%m\\/%Y)"
 
+# create Makefile
+
 if [ $CREATE = "y" ]; then
 	curl -s $TEMPLATE | sed 's/name_template/'"$NAME"'/g' \
 							| sed 's/extension_template/'"$EXTENSION"'/g' \
@@ -114,8 +118,8 @@ if [ $CREATE = "y" ]; then
 							| sed 's/date_template/'"$DATE"'/g' \
 							| sed 's/args_template/'"$ARGS"'/g' \
 							> Makefile;
-	printf "\n${BOLD}${GREEN}[✅]Makefile created successfully...${RESET}\n";
+	printf "\n✅${BOLD}${GREEN}Makefile created successfully...${RESET}\n";
 else
-	printf "[❕]Exiting...\n";
+	printf "❕Exiting...\n";
 fi
 exit 0;
