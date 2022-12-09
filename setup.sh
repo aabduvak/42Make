@@ -16,7 +16,7 @@ WHITE='\033[0;37m'
 BOLD='\033[1m'
 RESET='\033[0;0m'
 
-printf "${CYAN}${BOLD}This script helps you create your custom Makefile ${RESET}\n";
+printf "${CYAN}${BOLD}This script helps you create your custom Makefile 🌼${RESET}\n";
 
 # get input from user
 printf "\nEnter ${BOLD}name${RESET} of program: \n\
@@ -53,13 +53,13 @@ if [ -z "$EXTENSION" ]; then
 	EXTENSION=".c";
 fi
 
-printf "\nEnter ${BOLD}author${RESET} of project: (default user is ${BOLD}$USER${RESET} leave empty if wanted)\n\
-${BLUE}>>${RESET} ";
-read AUTHOR;
+#printf "\nEnter ${BOLD}author${RESET} of project: (default user is ${BOLD}$USER${RESET} leave empty if wanted)\n\
+#${BLUE}>>${RESET} ";
+#read AUTHOR;
 
-if [ -z "$AUTHOR" ]; then
-	AUTHOR=$USER;
-fi
+#if [ -z "$AUTHOR" ]; then
+#	AUTHOR=$USER;
+#fi
 
 printf "\nEnter ${BOLD}compiler${RESET} of project: (default compiler is ${BOLD}gcc${RESET} leave empty if wanted)\n\
 ${BLUE}>>${RESET} ";
@@ -77,15 +77,23 @@ if [ -z "$CFLAGS" ]; then
 	CFLAGS="-Wall -Wextra -Werror";
 fi
 
+printf "\nEnter ${BOLD}arguments${RESET} of program: (default arguments are ${BOLD}null${RESET} leave empty if wanted)\n\
+${BLUE}>>${RESET} ";
+read ARGS;
+
+if [ -z "$ARGS" ]; then
+	ARGS="null";
+fi
+
 printf "\nDo you want to create a Makefile with all these informations?\
  [y/n]\n\
 $BLUE$BOLD>> ${RESET}name: ${BOLD}$NAME$RESET\n\
 $BLUE$BOLD>> ${RESET}source directory: ${BOLD}$FOLDER$RESET\n\
 $BLUE$BOLD>> ${RESET}include directory: ${BOLD}$INCLUDE$RESET\n\
-$BLUE$BOLD>> ${RESET}author: ${BOLD}$AUTHOR$RESET\n\
 $BLUE$BOLD>> ${RESET}file extension: ${BOLD}$EXTENSION$RESET\n\
 $BLUE$BOLD>> ${RESET}compiler: ${BOLD}$COMPILER$RESET\n\
 $BLUE$BOLD>> ${RESET}compilation flags: ${BOLD}$CFLAGS$RESET\n\
+$BLUE$BOLD>> ${RESET}arguments: ${BOLD}$ARGS$RESET\n\
 
 $BLUE$BOLD[y/n] >> $RESET";
 read CREATE;
@@ -98,16 +106,16 @@ DATE="$(date +%d\\/%m\\/%Y)"
 
 if [ $CREATE = "y" ]; then
 	curl -s $TEMPLATE | sed 's/name_template/'"$NAME"'/g' \
-							| sed 's/author_template/'"$AUTHOR"'/g' \
 							| sed 's/extension_template/'"$EXTENSION"'/g' \
 							| sed 's/cc_template/'"$COMPILER"'/g' \
 							| sed 's/cflags_template/'"$CFLAGS"'/g' \
 							| sed 's/src_template/'"$FOLDER"'/g' \
 							| sed 's/inc_template/'"$INCLUDE"'/g' \
 							| sed 's/date_template/'"$DATE"'/g' \
+							| sed 's/args_template/'"$ARGS"'/g' \
 							> Makefile;
-	printf "Done...\n";
+	printf "\n${BOLD}${GREEN}[✅]Makefile created successfully...${RESET}\n";
 else
-	printf "Exiting...\n";
+	printf "[❕]Exiting...\n";
 fi
 exit 0;

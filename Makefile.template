@@ -26,9 +26,15 @@ BIN				= $(SRC_DIR)/bin/
 OBJS			= $(SRCS:$(SRC_DIR)/%$(EXTS)=$(BIN)%.o)
 INCS			= inc_template
 
-PARAMS			= 
-LOG				= output.file
+PARAMS			= args_template
 DATE			= date_template
+
+ifeq ($(PARAMS), null)
+	ARGS		= ""
+else
+	ARGS		= $(PARAMS)	
+endif
+
 # Rules
 
 all : $(NAME)
@@ -44,7 +50,7 @@ $(BIN)%.o: $(SRC_DIR)/%$(EXTS)
 $(NAME): $(BIN) $(OBJS)
 	@echo $(YELLOW) "Building... $(NAME)" $(END)
 	@$(CC) $(OBJS) -o $(NAME)
-	@echo $(BOLD)$(GREEN) "$(NAME) created successfully!\n" $(END)
+	@echo $(GREEN) "$(NAME) created successfully!\n" $(END)
 
 # $< input files
 # $@ output files
@@ -68,7 +74,7 @@ norm :
 re : fclean all
 
 run : $(NAME)
-	@./$(NAME) $(PARAMS)
+	@./$(NAME) $(ARGS)
 
 help :
 	@echo "------------------------------------ <<HELP COMMAND>> ------------------------------------"
