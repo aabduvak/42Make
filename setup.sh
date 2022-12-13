@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Makefile generator 1.0.0
+# Makefile generator 1.1.0
 
 # default Makefile template
 TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/Makefile.template"
@@ -77,14 +77,6 @@ if [ -z "$CFLAGS" ]; then
 	CFLAGS="-Wall -Wextra -Werror";
 fi
 
-printf "\nEnter ${BOLD}arguments${RESET} of program: (default arguments are ${BOLD}null${RESET} leave empty if wanted)\n\
-${BLUE}>>${RESET} ";
-read ARGS;
-
-if [ -z "$ARGS" ]; then
-	ARGS="null";
-fi
-
 # get confirmation
 
 printf "\nDo you want to create a Makefile with all these informations?\
@@ -95,7 +87,6 @@ $BLUE$BOLD>> ${RESET}include directory: ${BOLD}$INCLUDE$RESET\n\
 $BLUE$BOLD>> ${RESET}file extension: ${BOLD}$EXTENSION$RESET\n\
 $BLUE$BOLD>> ${RESET}compiler: ${BOLD}$COMPILER$RESET\n\
 $BLUE$BOLD>> ${RESET}compilation flags: ${BOLD}$CFLAGS$RESET\n\
-$BLUE$BOLD>> ${RESET}arguments: ${BOLD}$ARGS$RESET\n\
 
 $BLUE$BOLD[y/n] >> $RESET";
 read CREATE;
@@ -116,7 +107,6 @@ if [ $CREATE = "y" ]; then
 							| sed 's/src_template/'"$FOLDER"'/g' \
 							| sed 's/inc_template/'"$INCLUDE"'/g' \
 							| sed 's/date_template/'"$DATE"'/g' \
-							| sed 's/args_template/'"$ARGS"'/g' \
 							> Makefile;
 	printf "\n✅${BOLD}${GREEN}Makefile created successfully...${RESET}\n";
 else

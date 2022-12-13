@@ -1,0 +1,75 @@
+# Colors
+
+BLACK			=	"\033[0;30m"
+RED				=	"\033[0;31m"
+GREEN			=	"\033[0;32m"
+YELLOW			=	"\033[0;33m"
+CYAN			=	"\033[0;35m"
+BLUE			=	"\033[0;36m"
+WHITE			=	"\033[0;37m"
+BOLD			=	"\033[1m"
+END				=	"\033[0;0m"
+
+# Files
+
+NAME			= name_template
+EXT				= extension_template
+BIN				= ./bin/
+
+SRC_DIR			= src_template
+INC_DIR			= inc_template
+
+SRCS			= $(shell find $(SRC_DIR) -type f -name "*$(EXT)")
+OBJS			= $(SRCS:$(SRC_DIR)/%$(EXT)=$(BIN)%.o)
+
+# Commands
+
+CC		= gcc
+RM		= rm -rf
+CFLAGS	= -Wall -Wextra -Werror
+
+# Rules
+
+all : $(NAME)
+
+$(BIN):
+	@mkdir $(BIN)
+
+$(NAME) : $(BIN) $(OBJS)
+	@echo $(YELLOW) "Building... $(NAME)" $(END)
+	@ar rc $(NAME) $(OBJS)
+	@ranlib $(NAME)
+	@echo $(GREEN) "$(NAME) created successfully!\n" $(END)
+
+$(BIN)%.o: $(SRC_DIR)/%$(EXT)
+	@mkdir -p $(shell dirname $@)
+	@echo $(YELLOW) "Compiling..." $< $(END)
+	@$(CC) $(CFLAGS) -c $< -o $@ -I./$(INC_DIR)
+
+clean :
+	@echo $(YELLOW) "Removing object files...$(NAME)" $(END)
+	@$(RM) $(OBJS) $(BONUS_OBJS)
+	@echo $(RED) "All files deleted successfully!\n" $(END)
+
+fclean : clean
+	@echo $(YELLOW) "Removing $(NAME)..." $(END)
+	@$(RM) $(NAME) $(BIN)
+	@echo $(RED) "$(NAME) deleted successfully!\n" $(END)
+
+norm :
+	@norminette $(SRC_DIR)/*.[ch]
+
+re : fclean all
+
+help :
+	@echo "------------------------------------ <<HELP COMMAND>> ------------------------------------"
+	@echo ""
+	@echo "make        --------- will compile all *.c files and create libft.a library"
+	@echo "make bonus  --------- will compile all bonus functions and create libft.a library"
+	@echo "make clean  --------- will clean all *.o files in sources"
+	@echo "make fclean --------- will clean all *.o files in sources and libft.a library"
+	@echo "make re     --------- will clean all files and compiles again"
+	@echo "make norm   --------- will control all *.c and *.h codes to norminette standart"
+	@echo "            --------- if finds norminette error will break"
+
+.PHONY: all clean fclean re help

@@ -26,15 +26,6 @@ BIN				= $(SRC_DIR)/bin/
 OBJS			= $(SRCS:$(SRC_DIR)/%$(EXTS)=$(BIN)%.o)
 INCS			= inc_template
 
-PARAMS			= args_template
-DATE			= date_template
-
-ifeq ($(PARAMS), null)
-	ARGS		= ""
-else
-	ARGS		= $(PARAMS)	
-endif
-
 # Rules
 
 all : $(NAME)
@@ -74,7 +65,7 @@ norm :
 re : fclean all
 
 run : $(NAME)
-	@./$(NAME) $(ARGS)
+	@./$(NAME)
 
 help :
 	@echo "------------------------------------ <<HELP COMMAND>> ------------------------------------"
