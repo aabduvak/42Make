@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Makefile generator 1.1.0
-
 # default Makefile template
 TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/templates/general.template"
 

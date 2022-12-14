@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Makefile Generator 2.1.1
+
 # Colors
 BLACK='\033[0;30m'
 RED='\033[0;31m'
