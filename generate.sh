@@ -12,9 +12,9 @@ BOLD='\033[1m'
 RESET='\033[0;0m'
 
 display_qr() {
-	printf "${CYAN}${BOLD}\nLove 42Make?${RESET} Scan this QRCode to star Github repository 👋\n";
-	# curl "https://raw.githubusercontent.com/aabduvak/42make/master/Makefile.template";
-	printf "Opening github repository?[y/n]: ";
+	printf "${CYAN}${BOLD}\nLove 42Make?${RESET} Scan this ${BOLD}QRCode${RESET} to star Github repository 👋\n\n";
+	curl "https://raw.githubusercontent.com/aabduvak/42make/master/assets/qrcode";
+	printf "\nOpening github repository?[y/n]: ";
 	read CONFIRM;
 
 	if [ $CONFIRM = "y" ]; then
@@ -46,13 +46,13 @@ if [ -z "$NAME" ]; then
 fi	
 
 if [ $NAME = "1" ]; then
-	TEMPLATE="./templates/libft.template"
-	cat $TEMPLATE > Makefile;
+	TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/templates/libft.template"
+	curl -s $TEMPLATE > Makefile;
 	printf "\n✅ ${BOLD}${GREEN}Makefile created successfully...${RESET}\n";
 	display_qr
 
 elif [ $NAME = "2" ]; then
-	TEMPLATE="./templates/lib.template"
+	TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/templates/lib.template"
 	printf "\nEnter ${BOLD}source${RESET} directory of project: (default folder is ${BOLD}src${RESET} leave empty if wanted)\n${BLUE}>>${RESET} ";
 	read SOURCES;
 	
@@ -67,7 +67,7 @@ elif [ $NAME = "2" ]; then
 		INCLUDE=$SOURCES;
 	fi
 	
-	cat $TEMPLATE | sed 's/extension_template/'".c"'/g' \
+	curl -s $TEMPLATE | sed 's/extension_template/'".c"'/g' \
 				| sed 's/src_template/'"$SOURCES"'/g' \
 				| sed 's/inc_template/'"$INCLUDE"'/g' \
 				| sed 's/name_template/'"libftprintf.a"'/g' \
@@ -76,7 +76,7 @@ elif [ $NAME = "2" ]; then
 	display_qr
 
 elif [ $NAME = "3" ]; then
-	TEMPLATE="./templates/general.template"
+	TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/templates/general.template"
 	
 	printf "\nEnter ${BOLD}source${RESET} directory of project: (default folder is ${BOLD}src${RESET} leave empty if wanted)\n${BLUE}>>${RESET} ";
 	read SOURCES;
@@ -92,7 +92,7 @@ elif [ $NAME = "3" ]; then
 		INCLUDE=$SOURCES;
 	fi
 	
-	cat -s $TEMPLATE | sed 's/name_template/'"push_swap"'/g' \
+	curl -s $TEMPLATE | sed 's/name_template/'"push_swap"'/g' \
 							| sed 's/extension_template/'".c"'/g' \
 							| sed 's/cc_template/'"gcc"'/g' \
 							| sed 's/cflags_template/'"-Wall -Wextra -Werror"'/g' \
@@ -103,7 +103,7 @@ elif [ $NAME = "3" ]; then
 	display_qr
 
 elif [ $NAME = "4" ] || [ $NAME = "5" ] || [ $NAME = "8" ]; then
-	TEMPLATE="./templates/minilibx.template"
+	TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/templates/minilibx.template"
 	
 	if [ $NAME = "4" ]; then
 		PROG="so_long";
@@ -141,7 +141,7 @@ elif [ $NAME = "4" ] || [ $NAME = "5" ] || [ $NAME = "8" ]; then
 		MINILIBX="minilibx";
 	fi
 	
-	cat -s $TEMPLATE | sed 's/name_template/'"$PROG"'/g' \
+	curl -s $TEMPLATE | sed 's/name_template/'"$PROG"'/g' \
 							| sed 's/extension_template/'".c"'/g' \
 							| sed 's/cc_template/'"gcc"'/g' \
 							| sed 's/cflags_template/'"-Wall -Wextra -Werror"'/g' \
@@ -152,8 +152,9 @@ elif [ $NAME = "4" ] || [ $NAME = "5" ] || [ $NAME = "8" ]; then
 							> Makefile;
 	printf "\n✅ ${BOLD}${GREEN}Makefile created successfully...${RESET}\n";
 	display_qr
+
 elif [ $NAME = "6" ]; then
-	TEMPLATE="./templates/general.template"
+	TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/templates/general.template"
 	
 	printf "\nEnter ${BOLD}source${RESET} directory of project: (default folder is ${BOLD}src${RESET} leave empty if wanted)\n${BLUE}>>${RESET} ";
 	read SOURCES;
@@ -169,7 +170,7 @@ elif [ $NAME = "6" ]; then
 		INCLUDE=$SOURCES;
 	fi
 	
-	cat -s $TEMPLATE | sed 's/name_template/'"philo"'/g' \
+	curl -s $TEMPLATE | sed 's/name_template/'"philo"'/g' \
 							| sed 's/extension_template/'".c"'/g' \
 							| sed 's/cc_template/'"gcc"'/g' \
 							| sed 's/cflags_template/'"-Wall -Wextra -Werror -pthread"'/g' \
@@ -180,7 +181,7 @@ elif [ $NAME = "6" ]; then
 	display_qr
 
 elif [ $NAME = "7" ]; then
-	TEMPLATE="./templates/minishell.template"
+	TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/templates/minishell.template"
 	
 	printf "\nEnter ${BOLD}source${RESET} directory of project: (default folder is ${BOLD}src${RESET} leave empty if wanted)\n${BLUE}>>${RESET} ";
 	read SOURCES;
@@ -210,7 +211,7 @@ elif [ $NAME = "7" ]; then
 		LIBFT="libft";
 	fi
 	
-	cat -s $TEMPLATE | sed 's/name_template/'"minishell"'/g' \
+	curl -s $TEMPLATE | sed 's/name_template/'"minishell"'/g' \
 							| sed 's/extension_template/'".c"'/g' \
 							| sed 's/cc_template/'"gcc"'/g' \
 							| sed 's/cflags_template/'"-Wall -Wextra -Werror"'/g' \
@@ -223,7 +224,7 @@ elif [ $NAME = "7" ]; then
 	display_qr
 
 elif [ $NAME = "9" ]; then
-	TEMPLATE="./templates/general.template"
+	TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/templates/general.template"
 	
 	printf "\nEnter ${BOLD}source${RESET} directory of project: (default folder is ${BOLD}src${RESET} leave empty if wanted)\n${BLUE}>>${RESET} ";
 	read SOURCES;
@@ -239,7 +240,7 @@ elif [ $NAME = "9" ]; then
 		INCLUDE=$SOURCES;
 	fi
 	
-	cat -s $TEMPLATE | sed 's/name_template/'"main"'/g' \
+	curl -s $TEMPLATE | sed 's/name_template/'"main"'/g' \
 							| sed 's/extension_template/'".cpp"'/g' \
 							| sed 's/cc_template/'"c++"'/g' \
 							| sed 's/cflags_template/'"-Wall -Wextra -Werror -std=c++98"'/g' \
@@ -250,6 +251,5 @@ elif [ $NAME = "9" ]; then
 	display_qr
 
 else
-	printf "❕${YELLOW}Exiting...${RESET}\n";
+	printf "⚠️${YELLOW} Exiting...${RESET}\n";
 fi
-exit 0;
