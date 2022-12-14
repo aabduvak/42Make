@@ -11,17 +11,6 @@ WHITE='\033[0;37m'
 BOLD='\033[1m'
 RESET='\033[0;0m'
 
-display_qr() {
-	printf "${CYAN}${BOLD}\nLove 42Make?${RESET} Scan this ${BOLD}QRCode${RESET} to star Github repository 👋\n\n";
-	curl "https://raw.githubusercontent.com/aabduvak/42make/master/assets/qrcode";
-	printf "\nOpening github repository?[y/n]: ";
-	read CONFIRM;
-
-	if [ $CONFIRM = "y" ]; then
-		open "https://github.com/aabduvak/42Make"
-	fi
-}
-
 printf "${CYAN}${BOLD}This script helps you create Makefile for 42cursus 🌼${RESET}\n";
 
 # get input from user
@@ -49,7 +38,6 @@ if [ $NAME = "1" ]; then
 	TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/templates/libft.template"
 	curl -s $TEMPLATE > Makefile;
 	printf "\n✅ ${BOLD}${GREEN}Makefile created successfully...${RESET}\n";
-	display_qr
 
 elif [ $NAME = "2" ]; then
 	TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/templates/lib.template"
@@ -73,7 +61,6 @@ elif [ $NAME = "2" ]; then
 				| sed 's/name_template/'"libftprintf.a"'/g' \
 					> Makefile;
 	printf "\n✅ ${GREEN}${BOLD}Makefile created successfully...${RESET}\n";
-	display_qr
 
 elif [ $NAME = "3" ]; then
 	TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/templates/general.template"
@@ -100,7 +87,6 @@ elif [ $NAME = "3" ]; then
 							| sed 's/inc_template/'"$INCLUDE"'/g' \
 							> Makefile;
 	printf "\n✅ ${BOLD}${GREEN}Makefile created successfully...${RESET}\n";
-	display_qr
 
 elif [ $NAME = "4" ] || [ $NAME = "5" ] || [ $NAME = "8" ]; then
 	TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/templates/minilibx.template"
@@ -151,7 +137,6 @@ elif [ $NAME = "4" ] || [ $NAME = "5" ] || [ $NAME = "8" ]; then
 							| sed 's/mlx_template/'"$MINILIBX"'/g' \
 							> Makefile;
 	printf "\n✅ ${BOLD}${GREEN}Makefile created successfully...${RESET}\n";
-	display_qr
 
 elif [ $NAME = "6" ]; then
 	TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/templates/general.template"
@@ -178,7 +163,6 @@ elif [ $NAME = "6" ]; then
 							| sed 's/inc_template/'"$INCLUDE"'/g' \
 							> Makefile;
 	printf "\n✅ ${BOLD}${GREEN}Makefile created successfully...${RESET}\n";
-	display_qr
 
 elif [ $NAME = "7" ]; then
 	TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/templates/minishell.template"
@@ -221,7 +205,6 @@ elif [ $NAME = "7" ]; then
 							| sed 's/rdl_template/'"$READLINE"'/g' \
 							> Makefile;
 	printf "\n✅ ${BOLD}${GREEN}Makefile created successfully...${RESET}\n";
-	display_qr
 
 elif [ $NAME = "9" ]; then
 	TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/templates/general.template"
@@ -248,8 +231,8 @@ elif [ $NAME = "9" ]; then
 							| sed 's/inc_template/'"$INCLUDE"'/g' \
 							> Makefile;
 	printf "\n✅ ${BOLD}${GREEN}Makefile created successfully...${RESET}\n";
-	display_qr
 
 else
 	printf "⚠️${YELLOW} Exiting...${RESET}\n";
+	exit 1;
 fi

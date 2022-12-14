@@ -64,9 +64,6 @@ norm :
 
 re : fclean all
 
-run : $(NAME)
-	@./$(NAME)
-
 help :
 	@echo "------------------------------------ <<HELP COMMAND>> ------------------------------------"
 	@echo ""

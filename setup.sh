@@ -3,7 +3,7 @@
 # Makefile generator 1.1.0
 
 # default Makefile template
-TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/Makefile.template"
+TEMPLATE="https://raw.githubusercontent.com/aabduvak/42make/master/templates/general.template"
 
 # Colors
 BLACK='\033[0;30m'
@@ -95,21 +95,18 @@ if [ -z "$CREATE" ]; then
 	CREATE="y";
 fi
 
-DATE="$(date +%d\\/%m\\/%Y)"
-
 # create Makefile
 
-if [ $CREATE = "y" ]; then
+if [ $CREATE = "y" ] || [ $CREATE = "Y" ]; then
 	curl -s $TEMPLATE | sed 's/name_template/'"$NAME"'/g' \
 							| sed 's/extension_template/'"$EXTENSION"'/g' \
 							| sed 's/cc_template/'"$COMPILER"'/g' \
 							| sed 's/cflags_template/'"$CFLAGS"'/g' \
 							| sed 's/src_template/'"$FOLDER"'/g' \
 							| sed 's/inc_template/'"$INCLUDE"'/g' \
-							| sed 's/date_template/'"$DATE"'/g' \
 							> Makefile;
-	printf "\n✅${BOLD}${GREEN}Makefile created successfully...${RESET}\n";
+	printf "\n✅${BOLD}${GREEN} Makefile created successfully...${RESET}\n";
 else
-	printf "❕Exiting...\n";
+	printf "⚠️ ${YELLOW}Exiting...${RESET}\n";
 fi
 exit 0;
