@@ -1,0 +1,102 @@
+# Colors
+
+BLACK			=	"\033[0;30m"
+RED				=	"\033[0;31m"
+GREEN			=	"\033[0;32m"
+YELLOW			=	"\033[0;33m"
+CYAN			=	"\033[0;35m"
+BLUE			=	"\033[0;36m"
+WHITE			=	"\033[0;37m"
+BOLD			=	"\033[1m"
+END				=	"\033[0;0m"
+
+# Command and Flags
+
+NAME			= name_template
+CC				= cc_template
+CFLAGS			= cflags_template
+RM				= rm -rf
+EXTS			= extension_template
+
+# Files and Directories
+
+SRC_DIR			= src_template
+INC_DIR			= inc_template
+LIB_DIR			= lib_template
+RDL_DIR			= rdl_template
+
+SRCS			= $(shell find $(SRC_DIR) -type f -name "*$(EXTS)")
+BIN				= $(SRC_DIR)/bin/
+OBJS			= $(SRCS:$(SRC_DIR)/%$(EXTS)=$(BIN)%.o)
+RDL				= ./$(RDL_DIR)/.$(NAME)
+LIBFT			= ./$(LIB_DIR)/libft.a
+DIR				= $(shell echo $(PWD))
+LFLAGS			= -L./$(RDL_DIR)/lib -lreadline -I./$(RDL_DIR)/include
+
+# Rules
+
+all : $(NAME)
+
+$(BIN):
+	@mkdir $(BIN)
+
+$(LIBFT):
+	@make -C $(LIB_DIR)
+	
+$(RDL):
+	@curl -O http://ftp.gnu.org/gnu/readline/readline-8.2-rc1.tar.gz
+	@gunzip -c readline-8.2-rc1.tar.gz | tar xopf -
+	@mv readline-8.2-rc1 $(RDL_DIR)
+	/bin/sh -c "cd $(RDL_DIR) && sh ./configure --prefix=$(DIR)/$(RDL_DIR)"
+	make install -C $(RDL_DIR)
+	@rm -f readline-8.2-rc1.tar.gz
+	@touch $(RDL)
+
+$(BIN)%.o: $(SRC_DIR)/%$(EXTS)
+	@mkdir -p $(shell dirname $@)
+	@echo $(YELLOW) "Compiling..." $< $(END)
+	@$(CC) $(CFLAGS) $(LFLAGS) -c $< -o $@ -I./$(INC_DIR) -I./$(MLX_DIR) -I./$(LIB_DIR)
+
+$(NAME): $(BIN) $(RDL) $(LIBFT) $(OBJS)
+	@echo $(YELLOW) "Building... $(NAME)" $(END)
+	@$(CC) $(OBJS) $(FRAMEWORK) -o $(NAME) $(LIBFT) $(MINILIBX)
+	@echo $(GREEN) "$(NAME) created successfully!\n" $(END)
+
+# $< input files
+# $@ output files
+# in makefile used to create output files in their subfolder
+
+clean :
+	@echo $(YELLOW) "Removing object files...$(NAME)" $(END)
+	@$(RM) $(OBJS)
+	@echo $(RED) "All files deleted successfully!\n" $(END)
+
+fclean : clean
+	@echo $(YELLOW) "Removing $(NAME)..." $(END)
+	@$(RM) $(NAME)
+	@$(RM) $(BIN)
+	@echo $(RED) "$(NAME) deleted successfully!\n" $(END)
+
+ffclean: fclean
+	@echo $(YELLOW) "Removing $(NAME)..." $(END)
+	@make fclean -C $(LIB_DIR)
+	@$(RM) $(RDL_DIR)
+	@echo $(RED) "readline deleted successfully!\n" $(END)
+	
+norm :
+	@norminette $(INC_DIR)
+	@norminette $(SRC_DIR)
+	@norminette $(LIB_DIR)
+
+re : fclean all
+
+help :
+	@echo "------------------------------------ <<HELP COMMAND>> ------------------------------------"
+	@echo ""
+	@echo "make            --------- compiles all *.c files and create libftprintf.a library"
+	@echo "make clean      --------- cleans all *.o files in sources"
+	@echo "make fclean 	   --------- cleans all *.o files in sources and libftprintf.a library"
+	@echo "make re         --------- cleans all files and compiles again"
+	@echo "make norm       --------- controls all *.c and *.h codes to norminette standart"
+
+.PHONY: all clean fclean re run
