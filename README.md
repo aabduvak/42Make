@@ -9,7 +9,8 @@
   <img alt="Repository size" src="https://img.shields.io/github/repo-size/aabduvak/42Make?color=3de069">
   	
   <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/aabduvak/42Make?color=3de069" />
-
+  
+  <img alt="GitHub visitors" src="https://visitor-badge.glitch.me/badge?page_id=aabduvak.42Make&right_color=%233de069">
 </p>
 
 <p align="center">
